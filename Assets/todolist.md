@@ -1,7 +1,51 @@
-
 * FPS
 * War
 * Self defence
+
+* Character 
+  * Player 
+    * Attack
+      * Silah
+        * Mermi
+    * Movement
+    * Die
+    * Drive - belki
+    * Inventory
+      * 3 slotlu
+      * Q ile silah atma
+        * uzerine gelince esyaya sahip olma
+  * Zombie
+    * zombie base
+      * normal
+        * attack
+        * cool down 
+        * die
+      * hizli : normal 
+      * zombie spawn eden zombie : normal
+      * boss -> herhangi bir sey olabilir : normal
+        * roket atar animasyonu
+        * silahla ates etme animasyonu
+  * Ufo
+    * attack
+    * cool down
+    * die
+
+* Weapon
+  * calinti olacak
+
+* Vehicles  - zaman kalirsa
+  * calinti olacak 
+
+
+* UI
+  * Main menu
+  * Pause menu
+  * Game over menu
+  * Game menu
+  * Credits
+
+
+
 
 * Arealar olcak
   * tum canlilar olmek zorunda,
@@ -45,7 +89,6 @@
       * 3 cesit
         * biri sana dogru ates edecek
         * biri sana dogru roket atacak
-        * biri sana dogru ates edecek, ve roket atacak
     * zombi spawn eden zombi
       * 2 cesit
         * biri normal zombi spawn edecek

@@ -81,9 +81,9 @@
 
 * Zombie game
   * random spawn olacak mapte
-    * normal zombie
+    * normal zombie 
       * gorus alanina girersen sana dalacak
-    * hizli zombie
+    * hizli zombie 
       * normal zombiden daha hizli
     * zombi boss
       * 3 cesit

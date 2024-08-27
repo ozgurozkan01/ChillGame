@@ -26,6 +26,9 @@ namespace Npc.Zombie.Base
         public NavMeshAgent agent;
         public Animator animator;
         
+        [Header("Managers")]
+        public NpcFactoryManager npcFactoryManager;
+        
         [Header("Anim Key")]
         public string isWalkingAnimKey = "isWalking";
         public int isWalking;
@@ -37,6 +40,12 @@ namespace Npc.Zombie.Base
             agent = GetComponent<NavMeshAgent>();
             animator = GetComponent<Animator>();
             
+            SetAndInitStates();
+            TransitionToState(waitingState); // Start in the Idle state
+        }
+
+        public virtual void SetAndInitStates()
+        {
             idleState.Init(this);
             chasingState.Init(this);
             attackingState.Init(this);
@@ -44,8 +53,6 @@ namespace Npc.Zombie.Base
             deathState.Init(this);
             waitingState.Init(this);
             coolDownState.Init(this);
-            
-            TransitionToState(waitingState); // Start in the Idle state
         }
 
         private void Update()

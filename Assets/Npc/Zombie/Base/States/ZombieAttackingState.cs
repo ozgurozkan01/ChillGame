@@ -1,6 +1,8 @@
 using System;
 using Npc.Zombie.Base.States.Base;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace Npc.Zombie.Base.States
 {
@@ -12,7 +14,10 @@ namespace Npc.Zombie.Base.States
         public override void Enter()
         {
             Debug.Log("Attack State");
+
             npc.TransitionToState(npc.coolDownState);
         }
+
+       
     }
 }

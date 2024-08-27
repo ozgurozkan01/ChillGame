@@ -1,24 +1,27 @@
+using System;
 using UnityEngine;
 
 namespace Npc.Zombie.Weapon.Base
 {
     public class Weapon : MonoBehaviour
     {
-        public string weaponName;
         public float damage;
         
         public float fireRate = 0.5f;
-        public float nextFireTime = 0f; // Time when the weapon can next fire
+        public float speed;
+        private float _nextFireTime = 0f; // Time when the weapon can next fire
 
         public Transform firePoint;
-        public GameObject projectilePrefab; 
+        public GameObject projectilePrefab;
+
+        public Transform playerPoint;
 
         public virtual void Fire()
         {
-            if (Time.time >= nextFireTime) // Replace with your input method
+            if (Time.time >= _nextFireTime) // Replace with your input method
             {
                 Shoot();
-                nextFireTime = Time.time + 1f / fireRate; // Calculate the next allowed fire time
+                _nextFireTime = Time.time + 1f / fireRate; // Calculate the next allowed fire time
             }
         }
 
@@ -26,6 +29,8 @@ namespace Npc.Zombie.Weapon.Base
         {
             
         }
+        
+        
 
     }
     

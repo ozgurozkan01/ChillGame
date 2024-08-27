@@ -7,6 +7,8 @@ namespace Npc.Zombie.Base.States
     [Serializable]
     public class AttackingState : ZombieState
     {
+        public float attackRange = 2f;
+
         public override void Enter()
         {
             Debug.Log("Attack State");

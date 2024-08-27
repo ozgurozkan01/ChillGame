@@ -21,10 +21,6 @@ namespace Npc.Zombie.Base
         [Header("Properties")]
         public Transform player;
         public float detectionRange = 10f;
-        public float attackRange = 2f;
-        public float moveSpeed = 3.5f;
-        public float damageAmount = 10f;
-        public float health = 100f;
 
         [Header("Components")]
         public NavMeshAgent agent;
@@ -66,7 +62,6 @@ namespace Npc.Zombie.Base
 
         public void TakeDamage(float damage)
         {
-            damageAmount = damage;
             if (currentState != deathState)
             {
                 TransitionToState(getDamageState);
@@ -74,6 +69,6 @@ namespace Npc.Zombie.Base
         }
         public bool IsPlayerClose() => Vector3.Distance(transform.position, player.position) < detectionRange;
         
-        public bool IsPlayerCloseToAttack() => Vector3.Distance(transform.position, player.position) < attackRange;
+        public bool IsPlayerCloseToAttack() => Vector3.Distance(transform.position, player.position) < attackingState.attackRange;
     }
 }

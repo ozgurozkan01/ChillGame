@@ -1,5 +1,4 @@
 using System;
-using Npc.Zombie.Boss.Base;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;

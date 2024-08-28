@@ -1,3 +1,4 @@
+using Npc.Base;
 using Npc.Zombie.Base.States;
 using Npc.Zombie.Base.States.Base;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine.Serialization;
 
 namespace Npc.Zombie.Base
 {
-    public class ZombieBase : MonoBehaviour
+    public class ZombieBase : NpcBase
     {
         [Header("States")]
         public ZombieState currentState;
@@ -19,15 +20,11 @@ namespace Npc.Zombie.Base
         public ZombieCoolDown coolDownState;
 
         [Header("Properties")]
-        public Transform player;
         public float detectionRange = 10f;
 
         [Header("Components")]
         public NavMeshAgent agent;
         public Animator animator;
-        
-        [Header("Managers")]
-        public NpcFactoryManager npcFactoryManager;
         
         [Header("Anim Key")]
         public string isWalkingAnimKey = "isWalking";

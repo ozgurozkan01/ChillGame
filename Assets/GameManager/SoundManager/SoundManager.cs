@@ -1,7 +1,8 @@
-using SoundManager.Base;
+using GameManager.Base;
+using SoundManager;
 using UnityEngine;
-
-namespace SoundManager
+    
+namespace GameManager.SoundManager
 {
     public class SoundManager : ManagerBase
     {

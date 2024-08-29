@@ -11,7 +11,7 @@ namespace Npc.Zombie.Boss.Base
 
         public Weapon.Base.Weapon weapon;
 
-        public override void SetAndInitStates()
+        protected override void SetAndInitStates()
         {
             attackingState = bossAttackingState;
             weapon.playerPoint = player;

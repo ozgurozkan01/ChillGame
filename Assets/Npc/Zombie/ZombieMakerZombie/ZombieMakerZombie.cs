@@ -8,8 +8,8 @@ namespace Npc.Zombie.ZombieMakerZombie
     {
         [Header("Override States")] 
         public ZombieMakerAttackState zombieMakerAttackState;
-        
-        public override void SetAndInitStates()
+
+        protected override void SetAndInitStates()
         {
             attackingState = zombieMakerAttackState;
             base.SetAndInitStates();

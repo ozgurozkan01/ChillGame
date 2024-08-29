@@ -1,14 +1,12 @@
 using System.Collections.Generic;
-using Npc.Aliens;
+using GameManager.Base;
 using Npc.Aliens.Base;
 using Npc.Base;
-using Npc.Ufo.DropItem;
 using Npc.Zombie.Base;
 using Npc.Zombie.Boss.Base;
-using SoundManager.Base;
 using UnityEngine;
 
-namespace Npc
+namespace GameManager.FactoryManager
 {
     public class NpcFactoryManager : ManagerBase
     {
@@ -21,6 +19,8 @@ namespace Npc
 
         [Header("Ufo Items In Save")] 
         public List<NpcBase> ufoItems;
+        
+        
 
     }
 }

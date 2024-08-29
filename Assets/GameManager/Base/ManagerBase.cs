@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SoundManager.Base
+namespace GameManager.Base
 {
     public class ManagerBase : MonoBehaviour
     {

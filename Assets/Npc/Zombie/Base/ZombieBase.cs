@@ -41,7 +41,7 @@ namespace Npc.Zombie.Base
             TransitionToState(waitingState); // Start in the Idle state
         }
 
-        public virtual void SetAndInitStates()
+        protected virtual void SetAndInitStates()
         {
             idleState.Init(this);
             chasingState.Init(this);
@@ -64,13 +64,6 @@ namespace Npc.Zombie.Base
             currentState.Enter();
         }
 
-        public void TakeDamage(float damage)
-        {
-            if (currentState != deathState)
-            {
-                TransitionToState(getDamageState);
-            }
-        }
         public bool IsPlayerClose() => Vector3.Distance(transform.position, player.position) < detectionRange;
         
         public bool IsPlayerCloseToAttack() => Vector3.Distance(transform.position, player.position) < attackingState.attackRange;

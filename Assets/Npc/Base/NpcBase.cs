@@ -1,3 +1,4 @@
+using GameManager.FactoryManager;
 using UnityEngine;
 
 namespace Npc.Base

@@ -7,5 +7,13 @@ namespace Npc.Zombie.Base.States
     [Serializable]
     public class GetDamageState : ZombieState
     {
+        
+        /*public void TakeDamage(float damage)
+        {
+            if (currentState != deathState)
+            {
+                TransitionToState(getDamageState);
+            }
+        }*/
     }
 }

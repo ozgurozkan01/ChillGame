@@ -16,7 +16,7 @@ namespace Npc.Zombie.Base.States
         
         public override void Enter()
         {
-            Debug.Log("Waiting State");
+            Debug.Log("WWaiting State");
 
             npc.animator.SetFloat(npc.isWalking, 0f); // Reset walking animation
             npc.StartCoroutine(WaitCoroutine());

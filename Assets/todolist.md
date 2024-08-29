@@ -36,16 +36,21 @@
 * Vehicles  - zaman kalirsa
   * calinti olacak 
 
-
 * UI
   * Main menu
+    * play
+    * setting
+    * exit
   * Pause menu
+    * resume
+    * exit
   * Game over menu
+    * replay
+    * exit
   * Game menu
+    * health
   * Credits
-
-
-
+    * names
 
 * Arealar olcak
   * tum canlilar olmek zorunda,

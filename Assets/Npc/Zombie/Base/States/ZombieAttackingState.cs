@@ -14,10 +14,19 @@ namespace Npc.Zombie.Base.States
         public override void Enter()
         {
             Debug.Log("Attack State");
+            npc.animator.SetTrigger(npc.attack); // Start attacking animation
 
-            npc.TransitionToState(npc.coolDownState);
+            npc.StartCoroutine(npc.
+                WaitForAnimationToFinishCallAction(
+                    () =>
+                    {
+                        npc.TransitionToState(npc.coolDownState);
+                        
+                    }
+                )
+            );
+            // send ray
         }
 
-       
     }
 }

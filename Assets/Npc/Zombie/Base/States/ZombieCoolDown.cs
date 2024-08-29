@@ -23,7 +23,6 @@ namespace Npc.Zombie.Base.States
         {
             yield return new WaitForSeconds(cooldownTime);
         
-            // After cooldown, transition to ChasingState
             npc.TransitionToState(npc.chasingState);
         }
         

@@ -13,7 +13,10 @@ namespace Npc.Zombie.Weapon.Ammo
             if (other.CompareTag("Player"))
             {
                 Debug.Log("Hit");
+                Destroy(gameObject);
             }
+            else if(other.CompareTag("Player"))
+                Destroy(gameObject);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using Npc.Zombie.Base.States.Base;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Npc.Zombie.Base.States
@@ -11,8 +12,7 @@ namespace Npc.Zombie.Base.States
     public class IdleState : ZombieState
     {
         private Vector3 _targetPosition;
-
-        public float walkRadius = 25f; // Radius within which to move randomly
+        public float walkRadiusRange = 25f; // Radius within which to move randomly
 
         public override void Enter()
         {
@@ -32,7 +32,7 @@ namespace Npc.Zombie.Base.States
                 npc.TransitionToState(npc.waitingState); // Transition to waiting state
             }
 
-            if (npc.IsPlayerClose())
+            if (npc.IsPlayerClose(playerDetectionRangeCalmMode))
             {
                 npc.TransitionToState(npc.chasingState);
             }
@@ -40,8 +40,8 @@ namespace Npc.Zombie.Base.States
 
         private void SetRandomTargetPosition()
         {
-            var randomDirection = npc.transform.position + Random.insideUnitSphere * walkRadius;
-            if (NavMesh.SamplePosition(randomDirection, out var hit, walkRadius, NavMesh.AllAreas))
+            var randomDirection = npc.transform.position + Random.insideUnitSphere * walkRadiusRange;
+            if (NavMesh.SamplePosition(randomDirection, out var hit, walkRadiusRange, NavMesh.AllAreas))
             {
                 _targetPosition = hit.position;
             }

@@ -8,6 +8,5 @@ namespace Npc.Base
         public Transform player;
         [Header("Managers")]
         public NpcFactoryManager npcFactoryManager;
-
     }
 }

@@ -5,7 +5,7 @@ namespace Npc.Zombie.Weapon.Rocket
 {
     public class RocketShooter : Shooter
     {
-        protected override void Shoot()
+        /*protected override void Shoot()
         {
             transform.LookAt(playerPoint.transform);
 
@@ -16,7 +16,7 @@ namespace Npc.Zombie.Weapon.Rocket
             {
                 rb.AddForce(firePoint.forward * speed); // Adjust force as needed
             }
-        }
+        }*/
         
     }
 }

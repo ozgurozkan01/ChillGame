@@ -7,6 +7,7 @@ namespace Npc.Zombie.Base.States.Base
     public class ZombieState
     {
         public ZombieBase npc;
+        public float playerDetectionRangeCalmMode = 10f;
 
         public virtual void Init(ZombieBase npcInGame)
         {

@@ -12,7 +12,7 @@ namespace Npc.Zombie.Base.States
         public float minWaitTime = 2f; // Minimum wait time in seconds
         public float maxWaitTime = 5f; // Maximum wait time in seconds
         public float waitTime;
-        
+
         public override void Enter()
         {
             Debug.Log("Waiting State");
@@ -22,7 +22,7 @@ namespace Npc.Zombie.Base.States
         }
         public override void Update()
         {
-            if (npc.IsPlayerClose())
+            if (npc.IsPlayerClose(playerDetectionRangeCalmMode))
             {
                 npc.StopAllCoroutines(); // Stop waiting if player is detected
                 npc.TransitionToState(npc.chasingState); // Transition to Chasing state

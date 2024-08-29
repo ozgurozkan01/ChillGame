@@ -21,6 +21,7 @@ namespace GameManager.FactoryManager
         public List<NpcBase> ufoItems;
         
         
+        
 
     }
 }

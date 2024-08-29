@@ -434,7 +434,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 400000, guid: 83df9562de1b27646afd2f8bfb8d8927, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 531805038}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 83df9562de1b27646afd2f8bfb8d8927, type: 3}
       insertIndex: -1
@@ -594,7 +597,9 @@ MonoBehaviour:
   coolDownState:
     npc: {fileID: 0}
     cooldownTime: 2
-  detectionRange: 10
+  playerDetectionRangeCalmMode: 10
+  numberOfRays: 36
+  rayStartPoint: {fileID: 0}
   agent: {fileID: 0}
   animator: {fileID: 0}
   isWalkingAnimKey: isWalking
@@ -1308,7 +1313,9 @@ MonoBehaviour:
   coolDownState:
     npc: {fileID: 0}
     cooldownTime: 2
-  detectionRange: 10
+  playerDetectionRangeCalmMode: 10
+  numberOfRays: 36
+  rayStartPoint: {fileID: 0}
   agent: {fileID: 0}
   animator: {fileID: 0}
   isWalkingAnimKey: isWalking
@@ -1520,6 +1527,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1181678988}
   npcFactoryManager: {fileID: 198834473}
+--- !u!1 &531805037
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 531805038}
+  m_Layer: 0
+  m_Name: RayStartPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &531805038
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531805037}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.116, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1462070013}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &534669902
 GameObject:
   m_ObjectHideFlags: 0
@@ -2407,9 +2445,10 @@ GameObject:
   - component: {fileID: 1181678987}
   - component: {fileID: 1181678986}
   - component: {fileID: 1181678985}
+  - component: {fileID: 1181678989}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2429,7 +2468,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -2494,12 +2533,39 @@ Transform:
   m_GameObject: {fileID: 1181678984}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.29, y: 0.72, z: -16.06}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 9.29, y: 1.397, z: -16.06}
+  m_LocalScale: {x: 1, y: 2.0728636, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1181678989
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181678984}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &1184331459
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2651,7 +2717,9 @@ MonoBehaviour:
   coolDownState:
     npc: {fileID: 0}
     cooldownTime: 2
-  detectionRange: 10
+  playerDetectionRangeCalmMode: 10
+  numberOfRays: 36
+  rayStartPoint: {fileID: 0}
   agent: {fileID: 0}
   animator: {fileID: 0}
   isWalkingAnimKey: isWalking
@@ -2963,7 +3031,9 @@ MonoBehaviour:
   coolDownState:
     npc: {fileID: 0}
     cooldownTime: 2
-  detectionRange: 10
+  playerDetectionRangeCalmMode: 10
+  numberOfRays: 36
+  rayStartPoint: {fileID: 0}
   agent: {fileID: 0}
   animator: {fileID: 0}
   isWalkingAnimKey: isWalking
@@ -3319,7 +3389,7 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 3
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 240
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -3365,11 +3435,23 @@ MonoBehaviour:
   coolDownState:
     npc: {fileID: 0}
     cooldownTime: 2
-  detectionRange: 10
-  agent: {fileID: 0}
-  animator: {fileID: 0}
+  playerDetectionRangeCalmMode: 7
+  numberOfRays: 36
+  rayStartPoint: {fileID: 531805038}
+  agent: {fileID: 1462070008}
+  animator: {fileID: 1462070012}
   isWalkingAnimKey: isWalking
   isWalking: -830007593
+--- !u!95 &1462070012 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9500000, guid: 83df9562de1b27646afd2f8bfb8d8927, type: 3}
+  m_PrefabInstance: {fileID: 139478570}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1462070013 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400000, guid: 83df9562de1b27646afd2f8bfb8d8927, type: 3}
+  m_PrefabInstance: {fileID: 139478570}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1555083929
 GameObject:
   m_ObjectHideFlags: 0
@@ -3720,7 +3802,9 @@ MonoBehaviour:
   coolDownState:
     npc: {fileID: 0}
     cooldownTime: 2
-  detectionRange: 10
+  playerDetectionRangeCalmMode: 10
+  numberOfRays: 36
+  rayStartPoint: {fileID: 0}
   agent: {fileID: 0}
   animator: {fileID: 0}
   isWalkingAnimKey: isWalking
@@ -3859,7 +3943,9 @@ MonoBehaviour:
   coolDownState:
     npc: {fileID: 0}
     cooldownTime: 2
-  detectionRange: 10
+  playerDetectionRangeCalmMode: 10
+  numberOfRays: 36
+  rayStartPoint: {fileID: 0}
   agent: {fileID: 0}
   animator: {fileID: 0}
   isWalkingAnimKey: isWalking
@@ -4082,6 +4168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundManager: {fileID: 1811685470}
   factoryManager: {fileID: 198834473}
+  saveManager: {fileID: 0}
 --- !u!4 &1954712031
 Transform:
   m_ObjectHideFlags: 0

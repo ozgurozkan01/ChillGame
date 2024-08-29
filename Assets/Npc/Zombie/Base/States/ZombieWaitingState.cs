@@ -17,7 +17,7 @@ namespace Npc.Zombie.Base.States
         {
             Debug.Log("Waiting State");
 
-            npc.animator.SetFloat(npc.isWalking, 0f); // Start walking animation
+            npc.animator.SetFloat(npc.isWalking, 0f); // Reset walking animation
             npc.StartCoroutine(WaitCoroutine());
         }
         public override void Update()
@@ -32,7 +32,6 @@ namespace Npc.Zombie.Base.States
         {
             waitTime = Random.Range(minWaitTime, maxWaitTime);
             yield return new WaitForSeconds(waitTime);
-            
             npc.TransitionToState(npc.idleState);
         }
     }

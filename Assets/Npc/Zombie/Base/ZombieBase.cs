@@ -20,7 +20,11 @@ namespace Npc.Zombie.Base
         public ZombieCoolDown coolDownState;
 
         [Header("Properties")]
-        public float detectionRange = 10f;
+        [Header("View Properties")]
+        public float playerDetectionRangeCalmMode = 10f;
+        public int numberOfRays = 36; // Number of rays to cast around the zombie to detect the player
+        public Transform rayStartPoint;
+        private Vector3[] _rayDirections;
 
         [Header("Components")]
         public NavMeshAgent agent;
@@ -36,6 +40,8 @@ namespace Npc.Zombie.Base
             
             agent = GetComponent<NavMeshAgent>();
             animator = GetComponent<Animator>();
+            
+            PrecomputeRayDirections();
             
             SetAndInitStates();
             TransitionToState(waitingState); // Start in the Idle state
@@ -63,8 +69,37 @@ namespace Npc.Zombie.Base
             currentState = newState;
             currentState.Enter();
         }
+       
+        private void PrecomputeRayDirections()
+        {
+            _rayDirections = new Vector3[numberOfRays];
+            var angleStep = 360f / numberOfRays;
 
-        public bool IsPlayerClose() => Vector3.Distance(transform.position, player.position) < detectionRange;
+            for (int i = 0; i < numberOfRays; i++)
+            {
+                float angle = i * angleStep;
+                _rayDirections[i] = Quaternion.Euler(0, angle, 0) * transform.forward;
+            }
+        }
+
+        public bool IsPlayerClose()
+        {
+            foreach (var direction in _rayDirections)
+            {
+                Debug.DrawRay(rayStartPoint.position, direction * playerDetectionRangeCalmMode, Color.red);
+                
+                if (Physics.Raycast(rayStartPoint.position, direction, out var hit, playerDetectionRangeCalmMode))
+                {
+                    Debug.Log(hit.collider.gameObject.name);
+                    if (hit.collider.CompareTag("Player"))
+                    {
+                        return true; // Player detected within range
+                    }
+                }
+            }
+
+            return false; // Player not detected
+        }
         
         public bool IsPlayerCloseToAttack() => Vector3.Distance(transform.position, player.position) < attackingState.attackRange;
     }

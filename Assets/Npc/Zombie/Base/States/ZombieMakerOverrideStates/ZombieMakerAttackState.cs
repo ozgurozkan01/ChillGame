@@ -17,12 +17,7 @@ namespace Npc.Zombie.Base.States.ZombieMakerOverrideStates
         }
         private void SpawnRandomZombie()
         {
-            var zombies = npc.npcFactoryManager.zombiesInSave;
-            var randomIndex = Random.Range(0, zombies.Count);
-            
-            var selectedZombie = zombies[randomIndex];
-            
-            Object.Instantiate(selectedZombie, npc.transform.position, Quaternion.identity).gameObject.SetActive(true);
+           npc.npcFactoryManager.SpawnRandomZombieBase(npc.transform.position);
         }
         
     }

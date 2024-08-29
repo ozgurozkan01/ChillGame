@@ -9,8 +9,6 @@ namespace Npc.Zombie.Base.States
     [Serializable]
     public class DeathState : ZombieState
     {
-        public float duration = 2f; // Duration over which the scale will change
-
         public override void Enter()
         {
             Debug.Log("Entering Death State");
@@ -18,7 +16,7 @@ namespace Npc.Zombie.Base.States
             npc.animator.SetTrigger(npc.death);
             
             npc.StopAllCoroutines();
-            npc.StartCoroutine(ScaleYAndResetPosition(npc.holyCube, 2f));
+            ScaleYAndResetPosition();
             npc.StartCoroutine(npc.WaitForAnimationToFinishCallAction(KillZombie));
         }
 
@@ -29,31 +27,15 @@ namespace Npc.Zombie.Base.States
             Object.Destroy(npc);
         }
         
-        private IEnumerator ScaleYAndResetPosition(Transform obj, float targetScaleY)
+        private void ScaleYAndResetPosition()
         {
-            
+            var obj = npc.holyCube;
+            var targetScale = new Vector3(1, 2, 1); // Set the target scale with Y = 2
             var transform = obj.transform;
-            transform.gameObject.SetActive(true);
-            
-            var initialScale = transform.localScale;
-            var targetScale = new Vector3(initialScale.x, targetScaleY, initialScale.z);
 
-            var targetPosition = Vector3.zero; // All transform positions to (0, 0, 0)
-
-            var elapsedTime = 0f;
-
-            while (elapsedTime < duration)
-            {
-                elapsedTime += Time.deltaTime;
-                var progress = elapsedTime / duration;
-
-                obj.transform.localScale = Vector3.Lerp(initialScale, targetScale, progress);
-
-                yield return null; // Wait for the next frame
-            }
-
-            obj.transform.localScale = targetScale;
-            obj.transform.position = targetPosition;
+            transform.localScale = targetScale;
+            obj.gameObject.SetActive(true);
         }
+
     }
 }

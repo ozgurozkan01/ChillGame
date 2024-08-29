@@ -9,6 +9,7 @@ namespace GameManager
         public SoundManager.SoundManager soundManager;
         public NpcFactoryManager factoryManager;
         public SaveManager.SaveManager saveManager;
-
+        
+        public Transform player;    
     }
 }

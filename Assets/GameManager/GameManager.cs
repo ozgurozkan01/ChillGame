@@ -84,7 +84,7 @@ namespace GameManager
                 }
             }
         }
-
+                
         private void SetStateUIElement(List<Transform> uiStateUIElements, bool state)
         {
             foreach (var elementUIElement in uiStateUIElements)

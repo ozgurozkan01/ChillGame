@@ -20,7 +20,7 @@ namespace Npc.Ufo.Base.States
         {
             yield return new WaitForSeconds(coolDownDuration); // Wait for the cooldown period
 
-            ufo.SetState(ufo.ufoAttackState); // Example: return to attack state
+            ufo.SetState(ufo.ufoIdleState); // Example: return to attack state
         }
 
         public override void Update()

@@ -7,7 +7,8 @@ namespace Npc.Zombie.Base.States
     public class ChasingState : ZombieState
     {
         public bool chaseRegardlessOfRange; // if u shoot to zombie, it will follow you regardless of range
-
+        public float playerDetectionRange = 10f;
+        
         public override void Enter()
         {
             Debug.Log("Entering Chasing State");
@@ -15,7 +16,7 @@ namespace Npc.Zombie.Base.States
 
         public override void Update()
         {
-            if (chaseRegardlessOfRange || npc.IsPlayerClose(playerDetectionRangeCalmMode))
+            if (chaseRegardlessOfRange || npc.IsPlayerCloseToAttack(playerDetectionRange))
             {
                 npc.agent.SetDestination(npc.player.position);
                 npc.animator.SetFloat(npc.isWalking, 1f); // Start walking animation

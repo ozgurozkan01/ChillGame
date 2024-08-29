@@ -28,7 +28,7 @@ namespace Npc.Ufo.Base
             ufoDieState.Init(this);
             ufoAttackState.Init(this);
 
-            SetState(ufoIdleState);
+            SetState(ufoAttackState);
         }
         
         public void SetState(UfoState newState)

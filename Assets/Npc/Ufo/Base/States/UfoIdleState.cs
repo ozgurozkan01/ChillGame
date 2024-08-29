@@ -13,13 +13,12 @@ namespace Npc.Ufo.Base.States
     {
         private NavMeshAgent _navMeshAgent;
         private Vector3 _targetPosition;
-        
-        public float idleTimer;
-        public float moveTimer;
-
         public float moveRange = 10f; // Range for random positions
-        public float moveInterval = 2f; // Interval to pick new random positions
         
+        private float _idleTimer;
+        private float _moveTimer;
+        
+        public float moveInterval = 2f; // Interval to pick new random positions
         public float idleDurationMin = 2f; // Minimum idle duration before transitioning to attack state
         public float idleDurationMax = 5f; // Maximum idle duration before transitioning to attack state
 
@@ -33,26 +32,26 @@ namespace Npc.Ufo.Base.States
         {
             Debug.Log("Entering Idle State");
             _navMeshAgent.isStopped = false;
-            moveTimer = moveInterval;
-            idleTimer = Random.Range(idleDurationMin, idleDurationMax);
+            _moveTimer = moveInterval;
+            _idleTimer = Random.Range(idleDurationMin, idleDurationMax);
         }
 
         public override void Update()
         {
             // Update idle timer
-            idleTimer -= Time.deltaTime;
-            if (idleTimer <= 0)
+            _idleTimer -= Time.deltaTime;
+            if (_idleTimer <= 0)
             {
                 ufo.SetState(ufo.ufoAttackState);
                 return;
             }
 
             // Update move timer
-            moveTimer -= Time.deltaTime;
-            if (moveTimer <= 0)
+            _moveTimer -= Time.deltaTime;
+            if (_moveTimer <= 0)
             {
                 SetRandomDestination();
-                moveTimer = moveInterval;
+                _moveTimer = moveInterval;
             }
         }
 

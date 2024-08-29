@@ -13,7 +13,8 @@ namespace Npc.Zombie.Base.States
     {
         private Vector3 _targetPosition;
         public float walkRadiusRange = 25f; // Radius within which to move randomly
-
+        public float playerDetectionRange;
+        
         public override void Enter()
         {
             Debug.Log("Idle State");
@@ -32,7 +33,7 @@ namespace Npc.Zombie.Base.States
                 npc.TransitionToState(npc.waitingState); // Transition to waiting state
             }
 
-            if (npc.IsPlayerClose(playerDetectionRangeCalmMode))
+            if (npc.IsPlayerClose(playerDetectionRange))
             {
                 npc.TransitionToState(npc.chasingState);
             }

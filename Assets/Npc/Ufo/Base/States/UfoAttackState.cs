@@ -4,6 +4,7 @@ using Npc.Ufo.Base.States.Base;
 using Npc.Ufo.Base.States.Base;
 using Npc.Zombie.Weapon.Rocket;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Npc.Ufo.Base.States
 {
@@ -25,7 +26,8 @@ namespace Npc.Ufo.Base.States
         public override void Enter()
         {
             Debug.Log("Attack State");
-            SetState(ufoSpawnAlien);
+            ufo.agent.SetDestination(ufo.agent.transform.position);
+            SetState(ufoShootBlastAlien);
         }
 
         public override void Update()
@@ -96,14 +98,19 @@ namespace Npc.Ufo.Base.States
     [System.Serializable]
     public class UfoSpawnAlien : UfoSubAttackState
     {
-        private int spawnCount = 0;
-        private int MaxSpawns = 3;
+        
+        public int maxSpawns = 4;
+        public int spawnCount = 0;
+        public int currentSpawnCycle = 1;
+        public float duration;
+        public float firstYPos;
 
         public override void Enter()
         {
             spawnCount = 0;
             Debug.Log("Entering Spawn Alien State");
-            UfoAttackState.ufo.StartCoroutine(SpawnAliensCoroutine());
+            UfoAttackState.ufo.StartCoroutine(GoDown());
+
         }
 
         public override void Exit()
@@ -111,33 +118,61 @@ namespace Npc.Ufo.Base.States
             Debug.Log("Exiting Spawn Alien State");
             UfoAttackState.ufo.StopAllCoroutines();
         }
-
+     
         private IEnumerator SpawnAliensCoroutine()
         {
-            while (spawnCount < MaxSpawns)
+            UfoAttackState.ufo.agent.enabled = false;
+            while (spawnCount < currentSpawnCycle)
             {
-                SpawnAlien();
+                UfoAttackState.ufo.npcFactoryManager.SpawnAlien(UfoAttackState.ufo.transform.position);
                 spawnCount++;
                 yield return new WaitForSeconds(1f); // Optional delay between spawns
             }
+            UfoAttackState.ufo.agent.enabled = true;
+            
+            UfoAttackState.ufo.StartCoroutine(GoUp());
+            
+            currentSpawnCycle++;
+            if (currentSpawnCycle > maxSpawns)
+            {
+                currentSpawnCycle = 1;
+            }
+            
+        }
 
-            // After spawning aliens, transition to cooldown state
+        private IEnumerator GoDown()
+        {
+            var ufoTransform = UfoAttackState.ufo.transform;
+            var startPosition = ufoTransform.position;
+            firstYPos = startPosition.y;
+            var targetPositionDown = new Vector3(startPosition.x, 10, startPosition.z);
+
+            // Smoothly move down to y = 0
+            float elapsedTime = 0f;
+            while (elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+                ufoTransform.position = Vector3.Lerp(startPosition, targetPositionDown, elapsedTime / duration);
+                yield return null;
+            }
+            UfoAttackState.ufo.StartCoroutine(SpawnAliensCoroutine());
+        }
+        private IEnumerator GoUp()
+        {
+            var ufoTransform = UfoAttackState.ufo.transform;
+            var startPosition = ufoTransform.position;
+            var targetPositionDown = new Vector3(startPosition.x, firstYPos, startPosition.z);
+
+            float elapsedTime = 0f;
+            while (elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+                ufoTransform.position = Vector3.Lerp(startPosition, targetPositionDown, elapsedTime / duration);
+                yield return null;
+            }
+            
             UfoAttackState.ufo.SetState(UfoAttackState.ufo.ufoCoolDownState);
         }
-
-        private void SpawnAlien()
-        {
-            var alienList = UfoAttackState.ufo.npcFactoryManager.alienInSave;
-            
-            var alienPrefab = alienList[Random.Range(0, alienList.Count)].gameObject;
-        
-            var spawnPosition = UfoAttackState.ufo.agent.transform.position + new Vector3(0, 1, 0); // Example position adjustment
-            var newAlien = Object.Instantiate(alienPrefab, spawnPosition, Quaternion.identity);
-            newAlien.SetActive(true);
-
-            Debug.Log("Spawned an alien: " + newAlien.name);
-        }
-
     }
 
     [System.Serializable]
@@ -147,32 +182,15 @@ namespace Npc.Ufo.Base.States
         public LineRenderer laserLineRenderer;
 
         private Vector3 _playerPosition;
-
+        public float duration = 1f;
+        public float blastDuration = 0.5f; // Adjust this value to control the speed
         public override void Enter()
         {
             Debug.Log("Entering Blasting State");
-            _playerPosition = UfoAttackState.ufo.player.position;
-            Transform transform;
-            (transform = UfoAttackState.ufo.transform).LookAt(_playerPosition);
-            UfoAttackState.ufo.transform.Rotate(-transform.rotation.eulerAngles.x*2, 0, 0);
-            
-            laserLineRenderer.enabled = true;
             laserLineRenderer.positionCount = 2;
-            laserLineRenderer.SetPosition(0, laserStartPoint.position);
-            laserLineRenderer.SetPosition(1, _playerPosition);
-            
-            UfoAttackState.ufo.StartCoroutine(BlastingAttackCoroutine());
+            UfoAttackState.ufo.StartCoroutine(SmoothLookAt()); // Adjust duration as needed
         }
-
-        public override void Update()
-        {
-            if (laserLineRenderer.enabled)
-            {
-                laserLineRenderer.SetPosition(0, laserStartPoint.position);
-                laserLineRenderer.SetPosition(1, _playerPosition);
-            }
-        }
-
+        
         public override void Exit()
         {
             laserLineRenderer.enabled = false;
@@ -185,13 +203,53 @@ namespace Npc.Ufo.Base.States
             UfoAttackState.ufo.StopAllCoroutines();
 
         }
+        
+        private IEnumerator SmoothLookAt()
+        {
+            var ufoTransform = UfoAttackState.ufo.transform;
+            _playerPosition = UfoAttackState.ufo.player.position;
+
+            Quaternion startRotation = ufoTransform.rotation;
+            Vector3 directionToPlayer = (_playerPosition - ufoTransform.position).normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+
+            float elapsedTime = 0f;
+
+            while (elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+                ufoTransform.rotation = Quaternion.Slerp(startRotation, targetRotation, elapsedTime / duration);
+                yield return null;
+            }
+            ufoTransform.rotation = targetRotation;
+
+            UfoAttackState.ufo.StartCoroutine(BlastingAttackCoroutine());
+        }
+        
         private IEnumerator BlastingAttackCoroutine()
         {
+            yield return new WaitForSeconds(0.2f);
 
-            yield return new WaitForSeconds(2f);
+            laserLineRenderer.enabled = true;
+            laserLineRenderer.SetPosition(0, laserStartPoint.position);
 
+            Vector3 startPosition = laserStartPoint.position;
+            Vector3 endPosition = _playerPosition;
+
+            float elapsedTime = 0f;
+
+            while (elapsedTime < blastDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                Vector3 currentPos = Vector3.Lerp(startPosition, endPosition, elapsedTime / duration);
+                laserLineRenderer.SetPosition(1, currentPos);
+                yield return null;
+            }
+            laserLineRenderer.SetPosition(1, endPosition);
+            
             PerformBlastAttack();
-
+            
+            yield return new WaitForSeconds(1f);
             UfoAttackState.ufo.SetState(UfoAttackState.ufo.ufoCoolDownState);
         }
 

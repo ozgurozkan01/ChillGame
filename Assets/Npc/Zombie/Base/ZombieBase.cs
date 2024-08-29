@@ -48,7 +48,7 @@ namespace Npc.Zombie.Base
         public int death; 
         public string deathKey = "Death";
 
-        private void Start()
+        public void Init()
         {
             isWalking = Animator.StringToHash(isWalkingAnimKey);
             attack = Animator.StringToHash(attackKey);
@@ -58,10 +58,9 @@ namespace Npc.Zombie.Base
             agent = GetComponent<NavMeshAgent>();
             animator = GetComponent<Animator>();
             
-            PrecomputeRayDirections();
+            PrecomputeRayDirections();  
             
             SetAndInitStates();
-            TransitionToState(waitingState); // Start in the Idle state
         }
 
         protected virtual void SetAndInitStates()
@@ -123,7 +122,25 @@ namespace Npc.Zombie.Base
             return false; // Player not detected
         }
         
-        public bool IsPlayerCloseToAttack(float range) => IsPlayerClose(range, color: Color.blue);
+        public bool IsPlayerCloseToAttack(float range)
+        {
+            var position = rayStartPoint.position;
+            
+            var directionToPlayer = (player.position - position).normalized;
+
+            Debug.DrawRay(position, directionToPlayer * range, Color.blue);
+    
+            if (Physics.Raycast(rayStartPoint.position, directionToPlayer, out var hit, range))
+            {
+                Debug.Log(hit.collider.gameObject.name);
+                if (hit.collider.CompareTag("Player"))
+                {
+                    return true; // Player detected within range
+                }
+            }
+
+            return false; // Player not detected
+        }
         
         public IEnumerator WaitForAnimationToFinishCallAction(Action afterAnimationFinished)
         {

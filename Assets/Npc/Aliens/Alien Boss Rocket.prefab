@@ -467,34 +467,29 @@ MonoBehaviour:
   npcFactoryManager: {fileID: 0}
   currentState:
     npc: {fileID: 0}
-    playerDetectionRangeCalmMode: 10
   idleState:
     npc: {fileID: 0}
-    playerDetectionRangeCalmMode: 10
     walkRadiusRange: 25
+    playerDetectionRange: 0
   chasingState:
     npc: {fileID: 0}
-    playerDetectionRangeCalmMode: 10
     chaseRegardlessOfRange: 0
+    playerDetectionRange: 25
   attackingState:
     npc: {fileID: 0}
-    playerDetectionRangeCalmMode: 10
     attackRange: 2
   getDamageState:
     npc: {fileID: 0}
-    playerDetectionRangeCalmMode: 10
   deathState:
     npc: {fileID: 0}
-    playerDetectionRangeCalmMode: 10
   waitingState:
     npc: {fileID: 0}
-    playerDetectionRangeCalmMode: 10
     minWaitTime: 2
     maxWaitTime: 5
     waitTime: 0
+    playerDetectionRange: 25
   coolDownState:
     npc: {fileID: 0}
-    playerDetectionRangeCalmMode: 10
     cooldownTime: 2
   numberOfRays: 36
   rayStartPoint: {fileID: 5111293169616883341}
@@ -512,8 +507,7 @@ MonoBehaviour:
   deathKey: Death
   bossAttackingState:
     npc: {fileID: 0}
-    playerDetectionRangeCalmMode: 10
-    attackRange: 20
+    attackRange: 10
   weapon: {fileID: 189656820017211390}
 --- !u!4 &6259119614368069222 stripped
 Transform:

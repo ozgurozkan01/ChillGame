@@ -34,9 +34,32 @@ namespace GameManager.FactoryManager
             
             zombieSave.player = gameManager.player;
             zombieSave.npcFactoryManager = this;
-            
+
+            zombieSave.Init();
             return created.gameObject;
         }
 
+        public GameObject SpawnAlien(Vector3 spawnPoint)
+        {
+            var alienList = alienInSave;
+            
+            var alienPrefab = alienList[Random.Range(0, alienList.Count)].gameObject;
+            
+            var newAlien = Instantiate(alienPrefab, spawnPoint, Quaternion.identity);
+            newAlien.SetActive(true);
+
+            Debug.Log("Spawned an alien: " + newAlien.name);
+
+            var alienBase = newAlien.GetComponent<AlienBase>();
+            alienBase.chasingState.SetChaseRegardlessOfRange(true);
+            
+            alienBase.player = gameManager.player;
+            alienBase.npcFactoryManager = this;
+            
+            alienBase.Init();
+            alienBase.TransitionToState(alienBase.chasingState);
+
+            return newAlien;
+        }
     }
 }

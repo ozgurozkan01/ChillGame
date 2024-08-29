@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 public class Bullet : MonoBehaviour
 {
-    private float speed = 50;
+    private float speed = 100;
     public Vector3 targetPosition;
     public float damage;
     void Update()

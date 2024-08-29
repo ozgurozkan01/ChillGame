@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+public enum WeaponType
+{
+    Pistol,
+    MachineGun,
+    Bazooka
+}
+
 public class WeaponBase : MonoBehaviour
 {
     public Transform barrelTransform;

@@ -7,6 +7,7 @@ using UnityEngine.TextCore.Text;
 
 public class PlayerController : CharacterBase
 {
+    [SerializeField] private WeaponType currentWeaponType;
     [SerializeField] private Transform weaponHolder;
     [SerializeField] private CharacterController controller;
     [SerializeField] private Camera mainCam;
@@ -22,7 +23,12 @@ public class PlayerController : CharacterBase
     RaycastHit hitInfo;
 
     [SerializeField] private WeaponBase currentWeapon;
+    [SerializeField] private GameObject pistolPrefab;
+    [SerializeField] private GameObject machineGunPrefab;
+    [SerializeField] private GameObject bazookaPrefab;
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private InventoryController inventory;
+    
     
     // Start is called before the first frame update
     void Start()
@@ -31,6 +37,8 @@ public class PlayerController : CharacterBase
         currentHealth = maxHealth;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        SetInitialGun();
+        inventory.AddWeapon(currentWeapon.gameObject);
     }
 
     // Update is called once per frame
@@ -38,6 +46,7 @@ public class PlayerController : CharacterBase
     {
         if (!isDead)
         {
+            SwitchEquippedWeapon();
             LookAround();
             Move();
 
@@ -45,7 +54,7 @@ public class PlayerController : CharacterBase
             {
                 Attack();
             }
-            if (IsCameraRayHit() && DetermineIsWeapon() && Input.GetKeyDown(KeyCode.G))
+            if (IsCameraRayHit() && DetermineIsWeapon() && Input.GetKeyDown(KeyCode.G) && hitInfo.collider.gameObject != null)
             {
                 PickUpWeapon(hitInfo.collider.gameObject);
             }
@@ -60,6 +69,22 @@ public class PlayerController : CharacterBase
         }
     }
 
+    public void SetInitialGun()
+    {
+        GameObject weapon = null;
+        switch (currentWeaponType)
+        {
+            case WeaponType.Pistol: weapon = Instantiate(pistolPrefab, weaponHolder.position, weaponHolder.rotation); break;
+            case WeaponType.MachineGun: weapon = Instantiate(machineGunPrefab, weaponHolder.position, weaponHolder.rotation); break;
+            case WeaponType.Bazooka: weapon = Instantiate(bazookaPrefab, weaponHolder.position, weaponHolder.rotation); break;
+        }
+        
+        weapon.transform.Rotate(Vector3.up, 90);
+        weapon.transform.SetParent(weaponHolder);
+        currentWeapon = weapon.GetComponent<WeaponBase>();
+        barrelTransform = weapon.GetComponent<WeaponBase>().GetBarreTrasnform();
+    }
+    
     // ReSharper disable Unity.PerformanceAnalysis
     public override void Attack()
     {
@@ -132,6 +157,8 @@ public class PlayerController : CharacterBase
     // ReSharper disable Unity.PerformanceAnalysis
     public void DropWeapon()
     {
+        if (currentWeapon == null) { return; }
+        
         currentWeapon.transform.SetParent(null);
 
         Rigidbody rb = currentWeapon.GetComponent<Rigidbody>();
@@ -153,14 +180,8 @@ public class PlayerController : CharacterBase
             DropWeapon();
         }
 
-        currentWeapon = DetermineWeaponType(weapon);
-        currentWeapon.transform.SetParent(weaponHolder);
-        
-        currentWeapon.transform.localPosition = Vector3.zero;
-        currentWeapon.transform.localRotation = Quaternion.identity;
-
-        barrelTransform = currentWeapon.GetBarreTrasnform();
-        
+        inventory.AddWeapon(weapon);
+        UpdateWeaponProperties(weapon);
         Rigidbody rb = currentWeapon.GetComponent<Rigidbody>();
         if (rb != null)
         {
@@ -193,5 +214,42 @@ public class PlayerController : CharacterBase
         return hitInfo.collider.gameObject.CompareTag("Pistol") ||
                hitInfo.collider.gameObject.CompareTag("MachineGun") ||
                hitInfo.collider.gameObject.CompareTag("Bazooka");
+    }
+
+    // ReSharper disable Unity.PerformanceAnalysis
+    private void SwitchEquippedWeapon()
+    {
+        if (inventory == null) { return; }
+
+        GameObject weapon = null;
+        
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            weapon = inventory.SwitchWeapon(0);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            weapon = inventory.SwitchWeapon(1);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            weapon = inventory.SwitchWeapon(2);
+        }
+
+        if (weapon != null)
+        {
+            UpdateWeaponProperties(weapon);
+        }
+    }
+
+    void UpdateWeaponProperties(GameObject newWeapon)
+    {
+        newWeapon.transform.SetParent(weaponHolder);
+        newWeapon.transform.localRotation = Quaternion.identity;
+        newWeapon.transform.Rotate(Vector3.up, 90);
+        newWeapon.transform.localPosition = Vector3.zero;
+        currentWeapon = DetermineWeaponType(newWeapon);
+        barrelTransform = currentWeapon.GetBarreTrasnform();   
+
     }
 }

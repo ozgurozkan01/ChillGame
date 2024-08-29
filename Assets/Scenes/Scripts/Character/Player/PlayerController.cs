@@ -56,11 +56,21 @@ public class PlayerController : CharacterBase
             }
             if (IsCameraRayHit() && DetermineIsWeapon() && Input.GetKeyDown(KeyCode.G) && hitInfo.collider.gameObject != null)
             {
-                PickUpWeapon(hitInfo.collider.gameObject);
+                if (inventory.IsEnvanterFull())
+                {
+                    DropWeapon();
+                    inventory.ReplaceCurrentWeapon(hitInfo.collider.gameObject);
+                }
+                else
+                {
+                    PickUpWeapon(hitInfo.collider.gameObject);
+                }
             }
+            
             if (Input.GetKeyDown(KeyCode.Q) && currentWeapon != null)
             {
                 DropWeapon();
+                inventory.emptySlotAmount--;
             }
             if (Input.GetKeyDown(KeyCode.R) && currentWeapon)
             {
@@ -158,28 +168,31 @@ public class PlayerController : CharacterBase
     public void DropWeapon()
     {
         if (currentWeapon == null) { return; }
+    
+        // Silahı envanterden kaldır
+        inventory.RemoveWeapon(currentWeapon.gameObject);
         
+        // Silahın ebeveynini kaldır
         currentWeapon.transform.SetParent(null);
 
+        // Silaha Rigidbody ekle (eğer mevcut değilse)
         Rigidbody rb = currentWeapon.GetComponent<Rigidbody>();
         if (rb == null)
         {
             rb = currentWeapon.gameObject.AddComponent<Rigidbody>();
         }
 
+        // Silaha kuvvet ekle
         rb.AddForce(transform.forward * 10, ForceMode.Impulse);
 
+        // Silahı null yap
         currentWeapon = null;
     }
+
 
     // ReSharper disable Unity.PerformanceAnalysis
     public void PickUpWeapon(GameObject weapon)
     {
-        if (currentWeapon != null)
-        {
-            DropWeapon();
-        }
-
         inventory.AddWeapon(weapon);
         UpdateWeaponProperties(weapon);
         Rigidbody rb = currentWeapon.GetComponent<Rigidbody>();

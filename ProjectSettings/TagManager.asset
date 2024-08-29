@@ -4,6 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - UnpickedWeapon
+  - Enemy
+  - Pistol
+  - MachineGun
+  - Bazooka
+  - Bullet
   - InGameObject
   layers:
   - Default

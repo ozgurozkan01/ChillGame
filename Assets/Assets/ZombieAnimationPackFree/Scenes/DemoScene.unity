@@ -1655,7 +1655,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -3452,7 +3452,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!195 &1792453687
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4258,7 +4258,7 @@ SceneRoots:
   - {fileID: 1859675000}
   - {fileID: 148157317}
   - {fileID: 1184331459}
-  - {fileID: 1181678988}
   - {fileID: 1792453690}
+  - {fileID: 1181678988}
   - {fileID: 520592627}
   - {fileID: 110715413}
